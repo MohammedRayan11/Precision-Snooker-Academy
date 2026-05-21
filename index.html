@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Precision Snooker Academy — Bangalore's Premier Snooker Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,6 +50,19 @@
 
   html { scroll-behavior: smooth; }
 
+  /* ── PERFORMANCE: GPU layers for heavy animated elements ── */
+  #global-bg-canvas, #particles-canvas, #hero-balls-canvas {
+    will-change: transform; transform: translateZ(0);
+  }
+  .cursor, .cursor-ring { will-change: transform; }
+  .logo-ring, .logo-ring-2, .about-ring-outer, .about-ring-inner {
+    will-change: transform; transform: translateZ(0);
+  }
+  .gallery-item, .video-item, .table-card, .review-card {
+    will-change: transform; contain: layout style;
+  }
+  .reveal { contain: layout; }
+
   body {
     font-family: 'Rajdhani', sans-serif;
     background: var(--black);
@@ -63,8 +78,8 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.05s, opacity 0.2s;
+    will-change: transform;
+    transition: opacity 0.2s;
     mix-blend-mode: difference;
   }
   .cursor-ring {
@@ -73,7 +88,7 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
-    transform: translate(-50%,-50%);
+    will-change: transform;
     transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
   }
 
@@ -1176,7 +1191,18 @@
     .footer-links{flex-wrap:wrap;justify-content:center;}
     .balls-banner{flex-direction:column;}
     .hh-cards{flex-direction:column;align-items:center;}
-    .gallery-photos,.gallery-videos{grid-template-columns:repeat(2,1fr);}
+    .gallery-photos{grid-template-columns:repeat(2,1fr);}
+    .gallery-videos{
+      grid-template-columns:1fr !important;
+      max-width:400px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .video-item{
+      width:100%;
+      aspect-ratio:9/16;
+      min-height:480px;
+    }
   }
 </style>
 </head>
@@ -1210,7 +1236,7 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo-wrap" href="#">
-    <img class="nav-logo-img" src="images/logo.jpeg" alt="Precision Snooker Academy">
+    <img class="nav-logo-img" src="images/logo.jpeg" alt="Precision Snooker Academy" fetchpriority="high">
     <div class="nav-logo-text">
       <span class="nav-logo-main">Precision Snooker</span>
       <span class="nav-logo-sub">Academy · Bengaluru</span>
@@ -1239,7 +1265,7 @@
     <div class="hero-logo-wrap">
       <div class="logo-ring-2"></div>
       <div class="logo-ring"></div>
-      <img src="images/logo.jpeg" alt="Precision Snooker Academy">
+      <img src="images/logo.jpeg" alt="Precision Snooker Academy" fetchpriority="high">
     </div>
 
     <div class="hero-badge">Bangalore's Premier Snooker Club</div>
@@ -1312,7 +1338,7 @@
       <div class="about-logo">
         <div class="about-ring-inner"></div>
         <div class="about-ring-outer"></div>
-        <img src="images/logo.jpeg" alt="Precision Snooker Academy">
+        <img src="images/logo.jpeg" alt="Precision Snooker Academy" fetchpriority="high">
       </div>
       <div class="corner corner-tl"></div>
       <div class="corner corner-br"></div>
@@ -1335,7 +1361,7 @@
       <div class="table-name">Classic M1</div>
       
       
-      <img class="table-img" src="images/img3.jpeg" alt="Wiraka Classic M1">
+      <img class="table-img" src="images/img3.jpeg" alt="Wiraka Classic M1" loading="lazy">
       <p class="table-desc">The Wiraka Classic M1 — one of the finest tables in international tournament play. Steel cushions, premium hardwood frame, and immaculate Hainsworth Precision cloth engineered for flawless, consistent play.</p>
       <div class="table-spec">
         <div class="spec-item"><strong>45mm × 5pc</strong> Imported Slates</div>
@@ -1350,7 +1376,7 @@
       <div class="table-brand">Shender</div>
       <div class="table-name">Gold Prince</div>
       
-      <img class="table-img" src="images/shender.jpeg" alt="Shender Gold Prince">
+      <img class="table-img" src="images/shender.jpeg" alt="Shender Gold Prince" loading="lazy">
       <p class="table-desc">The Shender Gold Prince blends artisan craftsmanship with precision engineering.Steel cushions with Wilsonart fireproof finish, laminated surround protecting against burns and scratches, and Hainsworth Match cloth — made in England.</p>
       <div class="table-spec">
         <div class="spec-item"><strong>25mm × 3pc</strong> Imported Slates</div>
@@ -1365,7 +1391,7 @@
       <div class="table-brand">American Pool</div>
       <div class="table-name">Full-Size Pool Table</div>
       
-      <img class="table-img" src="images/americanpool.jpeg" alt="American Pool Table.">
+      <img class="table-img" src="images/americanpool.jpeg" alt="American Pool Table." loading="lazy">
       <p class="table-desc">Premium American pool experience with imported blue cloth and a full Taiwan-imported 2¼" pool ball set — delivering the authentic feel of a professional pool hall alongside our snooker tables.</p>
       <div class="table-spec">
         <div class="spec-item"><strong>2¼"</strong> Taiwan Pool Set</div>
@@ -1410,7 +1436,7 @@
     <div class="cue-card reveal">
       <div class="cue-img-wrap">
         
-        <img src="images/cue1.png" style="width:100%;height:100%;object-fit: contain;" alt="Club Cue 1"> 
+        <img src="images/cue1.png" style="width:100%;height:100%;object-fit: contain;" alt="Club Cue 1" loading="lazy"> 
         <div class="cue-img-placeholder">
           <div class="cue-stick-visual">
             <div class="cue-tip"></div>
@@ -1428,7 +1454,7 @@
     <div class="cue-card reveal">
       <div class="cue-img-wrap">
         
-        <img src="images/cue2.png" style="width:100%;height:100%;object-fit: contain;" alt="Club Cue 2">
+        <img src="images/cue2.png" style="width:100%;height:100%;object-fit: contain;" alt="Club Cue 2" loading="lazy">
         <div class="cue-img-placeholder">
           <div class="cue-stick-visual">
             <div class="cue-tip"></div>
@@ -1545,7 +1571,7 @@
 
     
     <div class="gallery-item reveal">
-      <img src="images/wiraka.jpeg" alt="PSA Interior"> 
+      <img src="images/wiraka.jpeg" alt="PSA Interior" loading="lazy"> 
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 1<br>1080 × 1080 px</span>
@@ -1556,7 +1582,7 @@
 
     <!-- Photo 2 -->
     <div class="gallery-item reveal">
-      <img src="images/img2.jpeg" alt="Championship Table">
+      <img src="images/img2.jpeg" alt="Championship Table" loading="lazy">
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 2<br>1080 × 1080 px</span>
@@ -1567,7 +1593,7 @@
 
     <!-- Photo 3 -->
     <div class="gallery-item reveal">
-      <img src="images/img3.jpeg" alt="Aramith Balls">
+      <img src="images/img3.jpeg" alt="Aramith Balls" loading="lazy">
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 3<br>1080 × 1080 px</span>
@@ -1578,7 +1604,7 @@
 
     <!-- Photo 4 -->
     <div class="gallery-item reveal">
-      <img src="images/img4.jpeg" alt="PSA Ambiance">
+      <img src="images/img4.jpeg" alt="PSA Ambiance" loading="lazy">
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 4<br>1080 × 1080 px</span>
@@ -1589,7 +1615,7 @@
 
     <!-- Photo 5 -->
     <div class="gallery-item reveal">
-      <img src="images/shender.jpeg" alt="Players in action">
+      <img src="images/shender.jpeg" alt="Players in action" loading="lazy">
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 5<br>1080 × 1080 px</span>
@@ -1600,7 +1626,7 @@
 
     <!-- Photo 6 -->
     <div class="gallery-item reveal">
-      <img src="images/img6.jpeg" alt="PSA Cues">
+      <img src="images/img6.jpeg" alt="PSA Cues" loading="lazy">
       <div class="gallery-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         <span>Instagram Post 6<br>1080 × 1080 px</span>
@@ -1894,7 +1920,7 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <div class="cta-logo reveal"><img src="images/logo.jpeg" alt="PSA Logo"></div>
+  <div class="cta-logo reveal"><img src="images/logo.jpeg" alt="PSA Logo" loading="lazy"></div>
   <div class="section-label reveal" style="justify-content:center;position:relative;">Ready to Play</div>
   <h2 class="section-title reveal" style="position:relative;">Your Next Frame<br><em style="color:var(--gold-light);">Awaits</em></h2>
   <p class="cta-text reveal">Step into Bangalore's most prestigious snooker club. Championship tables. International atmosphere. Open till 4 AM.</p>
@@ -1910,7 +1936,7 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-logo-wrap">
-        <img class="footer-logo-img" src="images/logo.jpeg" alt="PSA Logo">
+        <img class="footer-logo-img" src="images/logo.jpeg" alt="PSA Logo" loading="lazy">
         <div class="footer-logo-text">PSA · Precision Snooker Academy</div>
       </div>
       <ul class="footer-links">
@@ -1948,15 +1974,21 @@
 </footer>
 
 <script>
-  // ── Custom cursor
+  // ── Custom cursor (RAF-throttled for smoothness)
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, cursorRAF = false;
   document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    ring.style.left = e.clientX + 'px';
-    ring.style.top = e.clientY + 'px';
-  });
+    mouseX = e.clientX; mouseY = e.clientY;
+    if (!cursorRAF) {
+      cursorRAF = true;
+      requestAnimationFrame(() => {
+        cursor.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+        ring.style.transform   = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+        cursorRAF = false;
+      });
+    }
+  }, { passive: true });
 
   
   (function() {
@@ -2130,8 +2162,11 @@
       balls = [];
       cues = [];
 
-      // Capped at 18 balls for performance — viewport only
-      const count = Math.min(18, Math.max(10, Math.floor(W * H / 80000)));
+      // Fewer balls on mobile to stay smooth
+      const isMobile = W < 768;
+      const count = isMobile
+        ? Math.min(8, Math.max(5, Math.floor(W * H / 120000)))
+        : Math.min(18, Math.max(10, Math.floor(W * H / 80000)));
       for (let i = 0; i < count; i++) {
         const ballDef = POOL_BALLS[Math.floor(Math.random() * POOL_BALLS.length)];
         const r = 14 + Math.random() * 20;
@@ -2153,8 +2188,10 @@
         balls[balls.length-1].baseY = balls[balls.length-1].y;
       }
 
-      // Cue sticks — capped at 6 for performance
-      const cueCount = Math.min(6, Math.max(4, Math.floor(W * H / 130000)));
+      // Cue sticks — fewer on mobile
+      const cueCount = isMobile
+        ? Math.min(3, Math.max(2, Math.floor(W * H / 200000)))
+        : Math.min(6, Math.max(4, Math.floor(W * H / 130000)));
       for (let i = 0; i < cueCount; i++) {
         const angle = Math.random() * Math.PI * 2;
         const len = 180 + Math.random() * 220;
@@ -2176,7 +2213,9 @@
       initObjects();
     }
 
+    let animating = true;
     function animate() {
+      if (!animating) return;
       ctx.clearRect(0, 0, W, H);
 
       // Draw cues
@@ -2210,7 +2249,18 @@
       requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize', () => { initObjects(); });
+    // Throttle resize — avoid thrashing on every pixel
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { initObjects(); }, 200);
+    }, { passive: true });
+
+    // Pause when tab is hidden to save CPU/battery
+    document.addEventListener('visibilitychange', () => {
+      animating = !document.hidden;
+      if (animating) animate();
+    });
 
     // Wait for full page to load — only start once
     window.addEventListener('load', () => { initObjects(); animate(); });
@@ -2407,7 +2457,9 @@
       }
     }
 
+    let heroAnimating = true;
     function animate() {
+      if (!heroAnimating) return;
       ctx.clearRect(0, 0, W, H);
 
       // Update & draw each ball
@@ -2463,7 +2515,17 @@
       requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize', () => { resize(); });
+    let heroResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(heroResizeTimer);
+      heroResizeTimer = setTimeout(() => { resize(); }, 200);
+    }, { passive: true });
+
+    // Pause hero canvas when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      heroAnimating = !document.hidden;
+      if (heroAnimating) animate();
+    });
 
     initBalls();
     animate();
@@ -2484,7 +2546,7 @@
             b.vy += (dy / dist) * force;
           }
         }
-      });
+      }, { passive: true });
     }
   })();
 
@@ -2496,9 +2558,10 @@
     let W, H, particles = [];
     function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     const gold = ['#FFC200', '#FFD000', '#FFE566', '#FFF0A0', '#AA8800'];
-    for (let i = 0; i < 50; i++) {
+    const particleCount = window.innerWidth < 768 ? 25 : 50;
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * W, y: Math.random() * H,
         r: Math.random() * 1.6 + 0.4,
@@ -2508,7 +2571,9 @@
         life: Math.random() * 200 + 100, age: 0
       });
     }
+    let particleAnimating = true;
     function animate() {
+      if (!particleAnimating) return;
       ctx.clearRect(0, 0, W, H);
       particles.forEach(p => {
         p.x += p.vx; p.y += p.vy; p.age++;
@@ -2521,6 +2586,10 @@
       ctx.globalAlpha = 1;
       requestAnimationFrame(animate);
     }
+    document.addEventListener('visibilitychange', () => {
+      particleAnimating = !document.hidden;
+      if (particleAnimating) animate();
+    });
     animate();
   })();
 
@@ -2650,7 +2719,12 @@
     const vids = document.getElementById('gallery-videos');
     vids.style.display = tab === 'videos' ? 'grid' : 'none';
     if (tab === 'videos') {
-      vids.style.gridTemplateColumns = 'repeat(3,1fr)';
+      // Restore 3-col on desktop; mobile CSS media query handles mobile
+      if (window.innerWidth > 768) {
+        vids.style.gridTemplateColumns = 'repeat(3,1fr)';
+      } else {
+        vids.style.gridTemplateColumns = '';
+      }
     }
   }
 
@@ -2670,11 +2744,20 @@
     container.appendChild(iframe);
   }
 
-  // ── Nav scroll effect
+  // ── Nav scroll effect (passive + RAF throttled)
+  let scrollRAF = false;
   window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    nav.style.padding = window.scrollY > 60 ? '0.55rem 3rem' : '0.85rem 3rem';
-  });
+    if (!scrollRAF) {
+      scrollRAF = true;
+      requestAnimationFrame(() => {
+        const nav = document.querySelector('nav');
+        nav.style.padding = window.scrollY > 60 ? '0.55rem 3rem' : '0.85rem 3rem';
+        scrollRAF = false;
+      });
+    }
+  }, { passive: true });
 </script>
 </body>
 </html>
+
+
